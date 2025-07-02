@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "clean": "rm -rf node_modules dist",
+    "lint": "eslint . --fix",
     "preview": "vite preview"
   },
   "engines": {
@@ -14,6 +15,7 @@
     "pnpm": "10.12.4"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.81.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
@@ -23,6 +25,7 @@
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react-swc": "^3.10.2",
     "eslint": "^9.29.0",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-react-dom": "^1.52.2",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",

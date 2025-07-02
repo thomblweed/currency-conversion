@@ -1,4 +1,5 @@
 import js from "@eslint/js";
+import importPlugin from "eslint-plugin-import";
 import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
@@ -12,6 +13,8 @@ export default tseslint.config([
   {
     files: ["**/*.{ts,tsx}"],
     extends: [
+      importPlugin.flatConfigs.recommended,
+      importPlugin.flatConfigs.typescript,
       js.configs.recommended,
       ...tseslint.configs.strictTypeChecked,
       ...tseslint.configs.stylisticTypeChecked,
@@ -25,8 +28,27 @@ export default tseslint.config([
         project: ["./tsconfig.node.json", "./tsconfig.app.json"],
         tsconfigRootDir: import.meta.dir,
       },
-      ecmaversion: 2020,
       globals: globals.browser,
+    },
+    settings: {
+      "import/extensions": [".ts", ".tsx", ".js", ".jsx"],
+    },
+    rules: {
+      "import/order": [
+        "error",
+        {
+          groups: [
+            ["builtin", "external"],
+            ["internal", "sibling", "parent"],
+            "index",
+          ],
+          "newlines-between": "always",
+          alphabetize: {
+            order: "asc",
+            caseInsensitive: true,
+          },
+        },
+      ],
     },
   },
 ]);
