@@ -8,6 +8,14 @@ To install dependencies
 
 `pnpm install`
 
+### API Key
+
+This project relies on an api key from [https://currencybeacon.com](https://currencybeacon.com/register).
+
+Example for local development and preview running of the app, create a `.env` file in the root directory and add the following value;
+
+`VITE_CURRENCY_BEACON_API_KEY=<YOUR-KEY-GOES-HERE>`
+
 ## Development
 
 To run for development
@@ -18,6 +26,10 @@ To check for linting
 
 `pnpm lint`
 
+To check the types
+
+`pnpm typecheck`
+
 To run in preview/production build mode
 
-`pnpm build && pnpm preview`
+`pnpm preview`

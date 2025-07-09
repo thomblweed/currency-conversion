@@ -1,8 +1,23 @@
-const BASE_URL = "https://api.exchangeratesapi.io/v1";
+import axios from 'axios';
+
+import { mapCurrenciesResponseToCurrencyDetails } from './mappers/mapCurrenciesResponseToCurrencyDetails';
+
+import type { CurrenciesResponse } from '../interfaces/CurrenciesResponse.interface';
+
+const BASE_URL = 'https://api.currencybeacon.com/v1';
+const API_KEY = (import.meta.env.VITE_CURRENCY_BEACON_API_KEY as string) || '';
+
+const api = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    Accept: 'application/json',
+  },
+});
 
 export const getAvailableCurrencies = async () => {
-  const response = await fetch(`${BASE_URL}/currencies`);
-  const data = (await response.json()) as Record<string, string>;
+  const response = await api.get<CurrenciesResponse>(
+    `/currencies?type=flat&api_key=${API_KEY}`,
+  );
 
-  return data;
+  return mapCurrenciesResponseToCurrencyDetails(response.data);
 };

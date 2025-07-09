@@ -32,6 +32,12 @@ export default tseslint.config([
     },
     settings: {
       "import/extensions": [".ts", ".tsx", ".js", ".jsx"],
+      "import/resolver": {
+        typescript: {
+          alwaysTryTypes: true,
+          project: ["./tsconfig.json"],
+        },
+      },
     },
     rules: {
       "import/order": [
@@ -39,14 +45,30 @@ export default tseslint.config([
         {
           groups: [
             ["builtin", "external"],
-            ["internal", "sibling", "parent"],
+            "internal",
+            ["sibling", "parent"],
             "index",
+            "type",
+          ],
+          pathGroups: [
+            {
+              pattern: "@/**",
+              group: "internal",
+              position: "after",
+            },
           ],
           "newlines-between": "always",
           alphabetize: {
             order: "asc",
             caseInsensitive: true,
           },
+        },
+      ],
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          prefer: "type-imports",
+          disallowTypeAnnotations: true,
         },
       ],
     },

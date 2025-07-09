@@ -1,4 +1,4 @@
-import { CurrencyConversion } from "./features/currency-conversion/CurrencyConversion";
+import { CurrencyConversion } from "@/features/currency-conversion/CurrencyConversion";
 
 function App() {
   return (
