@@ -1,7 +1,9 @@
+import { CurrencyConversion } from "@/features/currency-conversion/CurrencyConversion";
+
 function App() {
   return (
     <div>
-      <h1>Currency Conversion</h1>
+      <CurrencyConversion />
     </div>
   );
 }
