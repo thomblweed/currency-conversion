@@ -1,7 +1,7 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { CurrencyInputs } from "./components/CurrencyInputs";
-import { CurrencyConversionProvider } from "./providers/CurrencyConversionProvider";
+import { CurrencyInputs } from './components/CurrencyInputs';
+import { CurrencyConversionProvider } from '../providers/CurrencyConversionProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false } },
