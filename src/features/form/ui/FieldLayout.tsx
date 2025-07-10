@@ -1,4 +1,4 @@
-import { Label } from '../ui/label';
+import { Label } from '@/components/ui/label';
 
 import type { ReactNode } from 'react';
 
@@ -8,7 +8,7 @@ interface FieldProps {
   children: ReactNode;
 }
 
-export const Field = ({ name, label, children }: FieldProps) => (
+export const FieldLayout = ({ name, label, children }: FieldProps) => (
   <div className="flex flex-col gap-2 w-full">
     <Label htmlFor={name}>{label}</Label>
     {children}

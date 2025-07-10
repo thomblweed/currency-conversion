@@ -1,67 +1,94 @@
-import { useState, type FormEvent, type FormEventHandler } from 'react';
-
-import { Field } from '@/components/form/Field';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useAppForm } from '@/features/form/hooks/useAppForm';
 
 import { SelectCurrency } from './SelectCurrency';
 import { convertCurrency } from '../../services/currency.service';
 
-const getFormData = (event: FormEvent<HTMLFormElement>) => {
-  const formData = new FormData(event.target as HTMLFormElement);
-  return Object.fromEntries(formData);
-};
-
 export const CurrencyInputs = () => {
-  const [convertedValue, setConvertedValue] = useState<number | undefined>(
-    undefined
-  );
+  const form = useAppForm({
+    defaultValues: {
+      from: '',
+      to: '',
+      amount: '',
+      converted: '',
+    },
+    onSubmit: async ({ value }) => {
+      const { from, to, amount } = value;
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+      try {
+        const convertedValue = await convertCurrency({
+          from,
+          to,
+          amount: amount.toString(),
+        });
 
-    const formData = getFormData(event);
-
-    const { from, to, amount } = formData;
-
-    try {
-      const convertedValue = await convertCurrency({
-        from: from as string,
-        to: to as string,
-        amount: amount as string,
-      });
-
-      setConvertedValue(convertedValue);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+        form.setFieldValue('converted', convertedValue.toString());
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  });
 
   return (
     <form
       className="flex flex-col gap-4"
-      onSubmit={handleSubmit as FormEventHandler<HTMLFormElement>}
+      onSubmit={(event) => {
+        event.preventDefault();
+        void form.handleSubmit();
+      }}
     >
       <div className="flex gap-4 w-1/2">
-        <Field name="from" label="From">
-          <SelectCurrency name="from" />
-        </Field>
-        <Field name="to" label="To">
-          <SelectCurrency name="to" />
-        </Field>
+        <form.AppField name="from">
+          {(field) => (
+            <field.FieldLayout name="from" label="From">
+              <SelectCurrency
+                name="from"
+                value={field.state.value}
+                onChange={(value) => {
+                  field.handleChange(value);
+                }}
+              />
+            </field.FieldLayout>
+          )}
+        </form.AppField>
+        <form.AppField name="to">
+          {(field) => (
+            <field.FieldLayout name="to" label="To">
+              <SelectCurrency
+                name="to"
+                value={field.state.value}
+                onChange={(value) => {
+                  field.handleChange(value);
+                }}
+              />
+            </field.FieldLayout>
+          )}
+        </form.AppField>
       </div>
       <div className="flex gap-4 w-1/2">
-        <Field name="amount" label="Amount">
-          <Input name="amount" type="number" placeholder="Amount" />
-        </Field>
-        <Field name="converted" label="Converted">
-          <Input
-            name="converted"
-            type="number"
-            readOnly
-            value={convertedValue}
-          />
-        </Field>
+        <form.AppField name="amount">
+          {(field) => (
+            <field.FieldLayout name="amount" label="Amount">
+              <Input
+                name="amount"
+                type="text"
+                placeholder="Amount"
+                value={field.state.value}
+                onChange={(event) => {
+                  field.handleChange(event.target.value);
+                }}
+              />
+            </field.FieldLayout>
+          )}
+        </form.AppField>
+        <form.AppField name="converted">
+          {(field) => (
+            <field.FieldLayout name="converted" label="Converted">
+              <div className="h-full pt-1">{field.state.value}</div>
+            </field.FieldLayout>
+          )}
+        </form.AppField>
       </div>
       <Button type="submit" className="w-fit">
         Convert

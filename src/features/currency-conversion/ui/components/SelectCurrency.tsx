@@ -9,9 +9,19 @@ import {
 
 import { useCurrencies } from '../../hooks/useCurrencies';
 
-export const SelectCurrency = ({ name }: { name: string }) => {
+interface SelectCurrencyProps {
+  name: string;
+  value: string;
+  onChange: (value: string) => void;
+}
+
+export const SelectCurrency = ({
+  name,
+  value,
+  onChange,
+}: SelectCurrencyProps) => {
   return (
-    <Select name={name}>
+    <Select name={name} value={value} onValueChange={onChange}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Select a currency" />
       </SelectTrigger>
