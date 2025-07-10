@@ -26,6 +26,10 @@ To check for linting
 
 `pnpm lint`
 
+To format files
+
+`pnpm format`
+
 To check the types
 
 `pnpm typecheck`
@@ -33,3 +37,9 @@ To check the types
 To run in preview/production build mode
 
 `pnpm preview`
+
+## Components and Styling
+
+This app uses [shadcn](https://ui.shadcn.com/) for the components and theme. Each component is installed locally to the [`src/ui/components`](./src/ui/components/) folder as described [here](https://ui.shadcn.com/docs/installation/vite#add-components).
+
+[Tailwind](https://tailwindcss.com/) is used for the styling

@@ -1,10 +1,13 @@
-import { CurrencyConversion } from "@/features/currency-conversion/CurrencyConversion";
+import './index.css';
+import { CurrencyConversion } from '@/features/currency-conversion/ui/CurrencyConversion';
+
+import { MainLayout } from './layouts/MainLayout';
 
 function App() {
   return (
-    <div>
+    <MainLayout>
       <CurrencyConversion />
-    </div>
+    </MainLayout>
   );
 }
 

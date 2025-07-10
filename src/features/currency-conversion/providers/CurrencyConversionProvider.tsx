@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { type ReactNode, useMemo } from 'react';
 
-import { CurrencyConversionContext } from '../context/CurrencyConversionContext';
+import { CurrenciesContext } from '../context/CurrenciesContext';
 import { getAvailableCurrencies } from '../services/currency.service';
 
 export const CurrencyConversionProvider = ({
@@ -14,11 +14,9 @@ export const CurrencyConversionProvider = ({
     queryFn: getAvailableCurrencies,
   });
 
-  const value = useMemo(() => data ?? [], [data]);
+  const currenciesValue = useMemo(() => ({ currencies: data ?? [] }), [data]);
 
   return (
-    <CurrencyConversionContext value={value}>
-      {children}
-    </CurrencyConversionContext>
+    <CurrenciesContext value={currenciesValue}>{children}</CurrenciesContext>
   );
 };
