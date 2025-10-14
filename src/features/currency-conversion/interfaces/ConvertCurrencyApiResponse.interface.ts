@@ -12,7 +12,7 @@ interface Response {
   value: number;
 }
 
-export interface ConvertCurrencyResponse {
+export interface ConvertCurrencyApiResponse {
   meta: Meta;
   response: Response;
   timestamp: number;

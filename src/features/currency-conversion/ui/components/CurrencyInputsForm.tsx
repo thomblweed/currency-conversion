@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query';
 import { useState, type FormEvent, type FormEventHandler } from 'react';
 
 import { Field } from '@/components/form/Field';
@@ -12,29 +13,27 @@ const getFormData = (event: FormEvent<HTMLFormElement>) => {
   return Object.fromEntries(formData);
 };
 
-export const CurrencyInputs = () => {
+export const CurrencyInputsForm = () => {
+  // TODO: update to atom and push state down
   const [convertedValue, setConvertedValue] = useState<number | undefined>(
     undefined
   );
+  const { mutate: convert } = useMutation({
+    mutationFn: convertCurrency,
+    onSuccess: setConvertedValue,
+  });
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = getFormData(event);
-
     const { from, to, amount } = formData;
 
-    try {
-      const convertedValue = await convertCurrency({
-        from: from as string,
-        to: to as string,
-        amount: amount as string,
-      });
-
-      setConvertedValue(convertedValue);
-    } catch (error) {
-      console.error(error);
-    }
+    convert({
+      from: from as string,
+      to: to as string,
+      amount: amount as string,
+    });
   };
 
   return (

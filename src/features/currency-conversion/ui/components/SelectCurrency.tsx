@@ -2,16 +2,19 @@ import {
   Select,
   SelectContent,
   SelectGroup,
-  SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
 
-import { useCurrencies } from '../../hooks/useCurrencies';
+import { CurrencyItems } from './CurrencyItems';
 
-export const SelectCurrency = ({ name }: { name: string }) => {
+interface SelectCurrencyProps {
+  name: string;
+}
+
+export const SelectCurrency = ({ name }: SelectCurrencyProps) => {
   return (
-    <Select name={name}>
+    <Select name={name} required>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Select a currency" />
       </SelectTrigger>
@@ -22,14 +25,4 @@ export const SelectCurrency = ({ name }: { name: string }) => {
       </SelectContent>
     </Select>
   );
-};
-
-const CurrencyItems = () => {
-  const { currencies } = useCurrencies();
-
-  return currencies.map((currency) => (
-    <SelectItem key={currency.code} value={currency.code}>
-      {currency.code} ({currency.name})
-    </SelectItem>
-  ));
 };

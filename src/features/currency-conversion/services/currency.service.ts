@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-import { mapCurrenciesResponseToCurrencies } from './mappers/mapCurrenciesResponseToCurrencies';
+import { trimToLastTwoDecimalPlaces } from '@/lib/utils';
 
-import type { ConvertCurrencyResponse } from '../interfaces/ConvertCurrencyResponse.interface';
-import type { CurrenciesResponse } from '../interfaces/CurrenciesResponse.interface';
+import type { ConvertCurrencyApiResponse } from '../interfaces/ConvertCurrencyApiResponse.interface';
+import type { CurrenciesApiResponse } from '../interfaces/CurrenciesApiResponse.interface';
 
 const BASE_URL = 'https://api.currencybeacon.com/v1';
 const API_KEY = (import.meta.env.VITE_CURRENCY_BEACON_API_KEY as string) || '';
@@ -16,11 +16,11 @@ const api = axios.create({
 });
 
 export const getAvailableCurrencies = async () => {
-  const response = await api.get<CurrenciesResponse>(
+  const response = await api.get<CurrenciesApiResponse>(
     `/currencies?type=flat&api_key=${API_KEY}`
   );
 
-  return mapCurrenciesResponseToCurrencies(response.data);
+  return response.data;
 };
 
 interface ConvertCurrencyParams {
@@ -34,9 +34,11 @@ export const convertCurrency = async ({
   to,
   amount,
 }: ConvertCurrencyParams) => {
-  const response = await api.get<ConvertCurrencyResponse>(
+  const response = await api.get<ConvertCurrencyApiResponse>(
     `/convert?from=${from}&to=${to}&amount=${amount}&api_key=${API_KEY}`
   );
 
-  return response.data.response.value;
+  const convertedValue = response.data.response.value;
+
+  return trimToLastTwoDecimalPlaces(convertedValue);
 };

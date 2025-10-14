@@ -16,7 +16,7 @@ interface Meta {
   disclaimer: string;
 }
 
-export interface CurrenciesResponse {
+export interface CurrenciesApiResponse {
   meta: Meta;
   response: CurrencyResponse[];
 }
