@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { CurrencyInputs } from './components/CurrencyInputs';
-import { CurrencyConversionProvider } from '../providers/CurrencyConversionProvider';
+import { CurrencyInputsForm } from './components/CurrencyInputsForm';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false } },
@@ -10,9 +9,9 @@ const queryClient = new QueryClient({
 export const CurrencyConversion = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <CurrencyConversionProvider>
-        <CurrencyInputs />
-      </CurrencyConversionProvider>
+      <div className="flex flex-col justify-center">
+        <CurrencyInputsForm />
+      </div>
     </QueryClientProvider>
   );
 };
