@@ -1,3 +1,5 @@
+import { useIsMutating } from '@tanstack/react-query';
+
 import {
   Select,
   SelectContent,
@@ -13,8 +15,10 @@ interface SelectCurrencyProps {
 }
 
 export const SelectCurrency = ({ name }: SelectCurrencyProps) => {
+  const isConverting = useIsMutating({ mutationKey: ['convert'] });
+
   return (
-    <Select name={name} required>
+    <Select name={name} required disabled={!!isConverting}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Select a currency" />
       </SelectTrigger>
