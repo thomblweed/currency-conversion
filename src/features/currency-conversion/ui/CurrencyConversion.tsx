@@ -9,7 +9,9 @@ const queryClient = new QueryClient({
 export const CurrencyConversion = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <CurrencyInputsForm />
+      <div className="flex flex-col justify-center">
+        <CurrencyInputsForm />
+      </div>
     </QueryClientProvider>
   );
 };

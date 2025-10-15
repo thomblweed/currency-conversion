@@ -1,24 +1,22 @@
 import { useMutation } from '@tanstack/react-query';
-import { useState, type FormEvent, type FormEventHandler } from 'react';
+import { useSetAtom } from 'jotai';
+import { type FormEvent, type FormEventHandler } from 'react';
 
 import { Field } from '@/components/form/Field';
+import { FormRow } from '@/components/form/FormRow';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
+import { getFormData } from '@/lib/utils';
 
+import { DisplayConverted } from './DisplayConverted';
 import { SelectCurrency } from './SelectCurrency';
+import { convertedAtom } from '../../atoms/converted.atom';
 import { convertCurrency } from '../../services/currency.service';
 
-const getFormData = (event: FormEvent<HTMLFormElement>) => {
-  const formData = new FormData(event.target as HTMLFormElement);
-  return Object.fromEntries(formData);
-};
-
 export const CurrencyInputsForm = () => {
-  // TODO: update to atom and push state down
-  const [convertedValue, setConvertedValue] = useState<number | undefined>(
-    undefined
-  );
-  const { mutate: convert } = useMutation({
+  const setConvertedValue = useSetAtom(convertedAtom);
+  const { mutate: convert, isPending } = useMutation({
     mutationFn: convertCurrency,
     onSuccess: setConvertedValue,
   });
@@ -41,29 +39,27 @@ export const CurrencyInputsForm = () => {
       className="flex flex-col gap-4"
       onSubmit={handleSubmit as FormEventHandler<HTMLFormElement>}
     >
-      <div className="flex gap-4 w-1/2">
+      <FormRow>
         <Field name="from" label="From">
           <SelectCurrency name="from" />
         </Field>
         <Field name="to" label="To">
           <SelectCurrency name="to" />
         </Field>
-      </div>
-      <div className="flex gap-4 w-1/2">
+      </FormRow>
+      <FormRow>
         <Field name="amount" label="Amount">
-          <Input name="amount" type="number" placeholder="Amount" />
-        </Field>
-        <Field name="converted" label="Converted">
           <Input
-            name="converted"
+            name="amount"
             type="number"
-            readOnly
-            value={convertedValue}
+            placeholder="Amount"
+            disabled={isPending}
           />
         </Field>
-      </div>
+        <DisplayConverted />
+      </FormRow>
       <Button type="submit" className="w-fit">
-        Convert
+        {isPending ? <Spinner /> : 'Convert'}
       </Button>
     </form>
   );
