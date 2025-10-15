@@ -17,6 +17,7 @@ import { convertCurrency } from '../../services/currency.service';
 export const CurrencyInputsForm = () => {
   const setConvertedValue = useSetAtom(convertedAtom);
   const { mutate: convert, isPending } = useMutation({
+    mutationKey: ['convert'],
     mutationFn: convertCurrency,
     onSuccess: setConvertedValue,
   });
@@ -54,6 +55,7 @@ export const CurrencyInputsForm = () => {
             type="number"
             placeholder="Amount"
             disabled={isPending}
+            required
           />
         </Field>
         <DisplayConverted />
