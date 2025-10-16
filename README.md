@@ -58,7 +58,7 @@ This app uses [shadcn](https://ui.shadcn.com/) for the components and theme. Eac
 
 ### Future Improvements
 
-- Api key security on a proxy Node api (AWS Lambda maybe) or by using a framework like React Router 7 (Framework version)/Next.js/Tanstack Start as examples
+- Api key security on a proxy Node api (AWS Lambda maybe) or by using a framework that can be run on a server like React Router 7 (framework version)/Next.js/Tanstack Start as examples
 - Add unit tests with testing library for quality and accessability updates
 - Factory Pattern for query and mutation keys constants
 - Form validation could be improved with zod and a form library for better UX
